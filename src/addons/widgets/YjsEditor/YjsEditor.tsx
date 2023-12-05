@@ -1,10 +1,10 @@
 import { useYjsStore } from "../../../useYjsStore";
 import { Tldraw, track, useEditor } from "@tldraw/tldraw";
 import "@tldraw/tldraw/tldraw.css";
-
 import style from "./YjsEditor.module.css";
 import { useNavigate } from "react-router-dom";
 import { Button, Grid } from "@mui/material";
+import { useViewport } from "../../features";
 
 const HOST_URL = "ws://localhost:1234";
 
@@ -18,6 +18,7 @@ export default function YjsEditor({ roomId }: YjsEditorProps) {
     hostUrl: HOST_URL,
   });
 
+  const { handleViewportChange } = useViewport();
 
   return (
     <div className={style.tldraw__editor}>
@@ -40,10 +41,12 @@ export default function YjsEditor({ roomId }: YjsEditorProps) {
             </Grid>
           </Grid>
         }
+        onMount={(change) => {
+          handleViewportChange(change);
+        }}
       />
     </div>
   );
-
 }
 
 const NameEditor = track(() => {
